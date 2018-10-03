@@ -1,11 +1,14 @@
+import Courses from './Courses'
+
 const Home = () => import(/* webpackChunkName: "HomePage" */ '@/pages/Home')
 
 export default {
   path: '/',
-  name: 'Home',
   component: Home,
+  children: [
+    Courses
+  ],
   meta: {
-    title: 'Home Page',
-    requiresAuth: false
+    requiresAuth: true
   }
 }

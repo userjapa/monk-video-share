@@ -1,0 +1,113 @@
+.login {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  &__box {
+    display: flex;
+    position: relative;
+    width: 30%;
+    height: 50%;
+    min-width: 300px;
+    max-width: 600px;
+    min-height: 500px;
+    max-height: 700px;
+    background-color: #f7f7f7;
+    flex-grow: 1;
+    align-self: center;
+    flex-direction: column;
+    align-content: stretch;
+    align-items: stretch;
+    border-radius: 15px;
+    box-shadow: 0px 5px 20px 2px rgba(#000, .25);
+    animation: up .75s ease-out;
+    &__header {
+      background-color: rgba(#000, .1);
+      border-radius: 15px 15px 0px 0px;
+      flex-basis: 20%;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 3rem;
+      letter-spacing: .5rem;
+      p {
+        margin-bottom: 15px;
+        &:first-child {
+          margin-top: 20px;
+        }
+      }
+    }
+    &__form {
+      flex-basis: 80%;
+      padding: 6rem;
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        align-content: stretch;
+        background-color: rgba(#6d6d6d, .1);
+        border-radius: 10px;
+        padding: 10px;
+        height: calc(100% - 20px);
+        max-width: 100%;
+        transition: .2s;
+        box-shadow: 0px 0px 30px -10px #000;
+        &:hover {
+          box-shadow: 0px 0px 30px -5px #000;
+        }
+      }
+      &__input {
+        display: flex;
+        text-align: center;
+        margin-bottom: 15px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 0 10px;
+        input {
+          width: calc(100% - 34px);
+        }
+        label {
+          margin-left: 5px;
+          margin-bottom: 4px;
+          color: #555;
+          font-size: 1.6rem;
+          letter-spacing: .1rem;
+        }
+      }
+      &__checkbox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
+        margin-bottom: 15px;
+        font-size: 1.4rem;
+        input[type="checkbox"] {
+          margin-right: 10px;
+        }
+      }
+      &__button {
+        margin: 0px 10px;
+        button {
+          width: calc(100% - 45px);
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 660px) {
+  .login__box {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    &__header {
+      border-radius: 0;
+      font-size: 2.25rem;
+    }
+    &__form {
+      padding: 3rem 1.5rem;
+    }
+  }
+}
