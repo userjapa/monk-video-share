@@ -92,10 +92,16 @@
           width: calc(100% - 45px);
         }
       }
+      &__message {
+        margin-top: 25px;
+        font-size: 1.4rem;
+        color: red;
+        letter-spacing: 1.25px;
+        text-align: center;
+      }
     }
   }
 }
-
 
 @media (max-width: 660px) {
   .login__box {

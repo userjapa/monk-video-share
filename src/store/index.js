@@ -32,6 +32,7 @@ const store = new Vuex.Store({
     },
     setError (state, error) {
       state.error = error
+      console.warn(error)
     }
   }
 })

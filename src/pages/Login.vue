@@ -26,6 +26,9 @@
           <div class="login__box__form__button">
             <button class="btn" type="submit" :disabled="!user.email || !user.password">Enter</button>
           </div>
+          <div class="login__box__form__message" :style="{ visibility: hasError ? 'visible' : 'hidden' }">
+            <span>Failed to login</span>
+          </div>
         </form>
       </div>
     </div>
@@ -33,6 +36,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'login',
   data () {
@@ -43,6 +48,11 @@ export default {
         keepLogged: false
       }
     }
+  },
+  computed: {
+    ...mapGetters({
+      hasError: 'hasError'
+    })
   },
   methods: {
     login (user) {

@@ -13,6 +13,17 @@ import { auth } from '@/firebase'
 // SCSS
 import '@/assets/scss/main.scss'
 
+// FontAwesome
+// Start
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSignOutAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faSignOutAlt, faPlusCircle)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+// End
+
 const doc = !!document ? document : window.document
 
 router.beforeEach((to, from, next) => {
@@ -31,7 +42,7 @@ auth.onAuthStateChanged(user => {
     router.replace({ name: 'Login' })
   } else {
     if (router.currentRoute.name === 'Login')
-      router.replace({ name: 'Home' })
+      router.replace({ name: 'Courses' })
   }
 })
 
