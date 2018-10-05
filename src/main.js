@@ -16,10 +16,10 @@ import '@/assets/scss/main.scss'
 // FontAwesome
 // Start
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSignOutAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt, faPlusCircle, faTimesCircle, faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSignOutAlt, faPlusCircle)
+library.add(faSignOutAlt, faPlusCircle, faTimesCircle, faArrowCircleLeft)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 // End

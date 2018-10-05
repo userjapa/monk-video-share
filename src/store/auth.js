@@ -8,7 +8,7 @@ export default {
   },
   getters: {
     hasUser ({ user }) {
-      return !user ? false : true
+      return !!user
     },
     getUser ({ user }) {
       return !user ? {} : user

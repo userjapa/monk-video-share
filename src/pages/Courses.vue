@@ -18,85 +18,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Courses',
   data () {
     return {
-      courses: [
-        {
-          name: 'JavaScript',
-          videos: [1, 2, 3, 4, 5]
-        },
-        {
-          name: 'HTML',
-          videos: [6, 7, 8, 9, 10]
-        },
-        {
-          name: 'CSS',
-          videos: [11, 12, 13, 14, 15]
-        },
-        {
-          name: 'Vue',
-          videos: [16, 17, 18, 19, 20]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        },
-        {
-          name: 'NodeJS',
-          videos: [21, 22, 23, 24, 25]
-        }
-      ]
     }
+  },
+  computed: {
+    ...mapGetters({
+      courses: 'course/getCourses'
+    })
   },
   methods: {
-    scrolling (ev) {
-      console.log('scroll')
-      console.log(ev)
-    }
-  },
-  created () {
-    window.addEventListener('scroll', this.scrolling)
-  },
-  beforeDestroy () {
-    window.removeEventListener('scroll', this.scrolling)
   }
 }
 </script>

@@ -13,11 +13,21 @@
         <form v-on:submit.prevent="login(user)">
           <div class="login__box__form__input">
             <label for="email_field">email</label>
-            <input id="email_field" class="input" type="email" v-model="user.email" required>
+            <input id="email_field"
+                   class="input"
+                   type="email"
+                   v-model="user.email"
+                   :class="{ active: !!user.email }"
+                   required>
           </div>
           <div class="login__box__form__input">
             <label for="password_field">password</label>
-            <input id="password_field" class="input" type="password" v-model="user.password" required>
+            <input id="password_field"
+                   class="input"
+                   type="password"
+                   v-model="user.password"
+                   :class="{ active: !!user.password }"
+                   required>
           </div>
           <div class="login__box__form__checkbox">
             <input id="keep_logged_field" class="input" type="checkbox" v-model="user.keepLogged">

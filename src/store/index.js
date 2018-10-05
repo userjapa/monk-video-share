@@ -3,12 +3,14 @@ import Vuex from 'vuex'
 
 // Modules
 import auth from './auth'
+import course from './course'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    auth
+    auth,
+    course
   },
   state: {
     loaded: false,
@@ -19,8 +21,7 @@ const store = new Vuex.Store({
       return loaded
     },
     hasError ({ error }) {
-      if (!error) return false
-      return true
+      return !!error
     },
     getError ({ error }) {
       return error

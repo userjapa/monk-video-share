@@ -1,13 +1,16 @@
 .courses {
   border: 2px solid red;
-  height: 90%;
+  flex-grow: 1;
   padding: 0 10%;
+  overflow-y: hidden;
+  height: calc(100% - 100px);
   &__add {
     display: flex;
     padding: 5px 40px;
     border: 2px solid black;
     color: #515151;
     font-size: 4.5rem;
+    height: 45px;
     span {
       margin-left: 15px;
       align-self: center;
@@ -27,7 +30,7 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-end;
-    max-height: 85%;
+    max-height: calc(100% - 55px);
     overflow-y: scroll;
     &__item {
       display: flex;
@@ -53,6 +56,7 @@
 @media (max-width: 660px) {
   .courses {
     padding: 0;
+    height: 100%;
     &__add {
       justify-content: center;
     }
