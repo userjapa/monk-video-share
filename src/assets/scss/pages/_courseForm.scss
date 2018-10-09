@@ -67,6 +67,7 @@
       width: 60%;
       padding: 5px;
       &__item {
+        position: relative;
         border: 2px solid black;
         width: 130px;
         height: 130px;
@@ -82,6 +83,18 @@
           white-space: normal;
           text-align: center;
           font-size: 1.6rem;
+        }
+        &__remove {
+          position: absolute;
+          color: red;
+          font-size: 2rem;
+          top: 5px;
+          right: 5px;
+          transition: .2s;
+          cursor: pointer;
+          &:hover {
+            transform: scale(1.5);
+          }
         }
       }
     }

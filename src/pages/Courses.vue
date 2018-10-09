@@ -8,7 +8,7 @@
     <div class="courses__list">
       <div class="courses__list__item"
            v-for="(item, index) in courses"
-           :style="{ animationDelay: `${ .25 * index}s` }">
+           :style="{ animationDelay: `${ .15 * index}s` }">
         <div class="courses__list__item__title">
           <h5>{{ item.name }}</h5>
         </div>

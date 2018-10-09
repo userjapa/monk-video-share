@@ -1,67 +1,12 @@
+import { databaseRef } from './../firebase'
+
+const coursesRef = databaseRef.child('courses')
+
 export default {
   namespaced: true,
   state: {
     course: null,
-    courses: [{
-      name: 'JavaScript',
-      videos: [1, 2, 3, 4, 5]
-    },
-    {
-      name: 'HTML',
-      videos: [6, 7, 8, 9, 10]
-    },
-    {
-      name: 'CSS',
-      videos: [11, 12, 13, 14, 15]
-    },
-    {
-      name: 'Vue',
-      videos: [16, 17, 18, 19, 20]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    },
-    {
-      name: 'NodeJS',
-      videos: [21, 22, 23, 24, 25]
-    }],
+    courses: [],
     toUpdate: null
   },
   getters: {
@@ -93,6 +38,27 @@ export default {
     },
     removeCourse (state, index) {
       state.courses.splice(index, 1)
+    }
+  },
+  actions: {
+    save ({ commit, dispatch }, course) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          commit('setError', null, { root: true })
+          await Promise.all(course.videos.map(async v => {
+            await dispatch('video/upload', { ...v, course: course.name }, { root: true })
+            v.thumbnail = `${v.name}.jpg`
+            v.name = `${v.name}.${v.file.name.split('.').pop()}`
+            delete v.file
+            return v
+          }))
+          await coursesRef.push(course)
+        } catch (error) {
+          commit('setError', error, { root: true })
+        } finally {
+
+        }
+      })
     }
   }
 }

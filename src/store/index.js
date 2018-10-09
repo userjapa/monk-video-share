@@ -4,13 +4,15 @@ import Vuex from 'vuex'
 // Modules
 import auth from './auth'
 import course from './course'
+import video from './video'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
     auth,
-    course
+    course,
+    video
   },
   state: {
     loaded: false,
@@ -33,7 +35,7 @@ const store = new Vuex.Store({
     },
     setError (state, error) {
       state.error = error
-      console.warn(error)
+      if (!!error) console.warn(error)
     }
   }
 })

@@ -43,12 +43,15 @@
                :key="`video-${index}`"
                :style="{ backgroundImage: `url(${v.thumbnail})` }">
             <!-- <span>{{ v.name }}</span> -->
-            <input type="text" v-model="v.name" @input="changedName(v)"/>
+            <input type="text" v-model="v.name"/>
+            <div class="course-form__form__videos__item__remove">
+              <font-awesome-icon icon="times-circle" @click.prevent="course.videos.splice(index, 1)"/>
+            </div>
           </div>
         </div>
         <div class="course-form__form__submit">
           <button type="submit" class="btn btn-success">Save</button>
-          <button class="btn btn-danger">Cancel</button>
+          <button class="btn btn-danger" @click.prevent="cancel()">Cancel</button>
         </div>
       </form>
     </div>
@@ -58,6 +61,7 @@
 </template>
 
 <script>
+import { cloneDeep } from 'lodash'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -84,7 +88,6 @@ export default {
   },
   methods: {
     fileChanged (file) {
-      console.log(file);
       if (file.name.match(/.avi|.flv|.wmv|.mov|.mp4/g)) {
         this.video.name = file.name.split('.')[0]
         this.video.file = file
@@ -104,9 +107,21 @@ export default {
       this.isValid = false
       this.resetVideo()
     },
-    save (course) {
+    async save (course) {
       if (course.videos.length > 0) {
-        console.log(course)
+        let failed = false
+        try {
+          let payload = cloneDeep(course)
+          await this.$store.dispatch('course/save', payload)
+        } catch (e) {
+          failed = true
+        } finally {
+          if (failed) {
+            console.log('Failed!')
+          } else {
+            console.log('Success!');
+          }
+        }
       } else {
         alert('Videos must be uploaded!')
       }
@@ -118,13 +133,15 @@ export default {
         file: null,
         thumbnail: null
       }
+      this.isValid = false
     },
-    changedName (video) {
-      let fileName = video.file.name
-      let splitted = fileName.split('.')
-      splitted[0] = video.name
-      video.file.renameFilename = `${splitted[0]}.${splitted[1]}`
-      console.log(video)
+    cancel () {
+      this.resetVideo()
+      this.course = {
+        name: '',
+        videos: []
+      }
+      this.$router.go(-1)
     }
   },
   mounted () {
@@ -136,7 +153,6 @@ export default {
       canvas.width = vWidth
       canvas.height = vHeight
       const canvas_ctx = canvas.getContext('2d')
-      console.log(canvas_ctx)
       setTimeout(() => {
         canvas_ctx.drawImage(video, 0, 0, vWidth, vHeight)
         this.video.thumbnail = canvas.toDataURL()
