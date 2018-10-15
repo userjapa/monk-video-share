@@ -4,7 +4,10 @@ import Vuex from 'vuex'
 // Modules
 import auth from './auth'
 import course from './course'
-import video from './video'
+import file from './file'
+
+// Plugins
+import coursePlugin from './course-plugin'
 
 Vue.use(Vuex)
 
@@ -12,7 +15,7 @@ const store = new Vuex.Store({
   modules: {
     auth,
     course,
-    video
+    file
   },
   state: {
     loaded: false,
@@ -37,7 +40,10 @@ const store = new Vuex.Store({
       state.error = error
       if (!!error) console.warn(error)
     }
-  }
+  },
+  plugins: [
+    coursePlugin
+  ]
 })
 
 export default store

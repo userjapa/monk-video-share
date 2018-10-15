@@ -1,7 +1,7 @@
 .courses {
   flex-grow: 1;
   padding: 0 450px;;
-  overflow-y: hidden;
+  // overflow-y: hidden;
   height: calc(100% - 100px);
   &__add {
     display: flex;
@@ -28,9 +28,10 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-end;
-    max-height: calc(100% - 55px);
-    overflow-y: scroll;
+    // max-height: calc(100% - 55px);
+    // overflow-y: scroll;
     &__item {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -40,12 +41,24 @@
       height: 150px;
       transition: .2s;
       animation: up 1s ease-out backwards;
-      z-index: 10;
+      z-index: 20;
       font-size: 1.6rem;
       &:hover {
-        z-index: 15;
+        z-index: 30;
         transform: scale(1.25);
         font-size: 2rem;
+      }
+      &__options {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px;
+        svg {
+          cursor: pointer;
+          &:first-child {
+            margin-right: 5px;
+          }
+        }
       }
     }
   }

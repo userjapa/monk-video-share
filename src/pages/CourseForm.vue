@@ -5,11 +5,11 @@
       <span>Back</span>
     </div>
     <div class="course-form__nav" v-else>
-      <font-awesome-icon icon="times-circle"/>
+      <font-awesome-icon icon="times-circle" @click="cancel()"/>
       <span>Cancel</span>
     </div>
     <div class="course-form__form">
-      <form @submit.prevent="save(course)">
+      <form @submit.prevent="isToUpdate ? update(course) : save(course)">
         <div class="course-form__form__input">
           <label for="course_name">Course name</label>
           <input id="course_name"
@@ -41,9 +41,9 @@
           <div class="course-form__form__videos__item"
                v-for="(v, index) in course.videos"
                :key="`video-${index}`"
-               :style="{ backgroundImage: `url(${v.thumbnail})` }">
+               :style="{ backgroundImage: `url(${v.thumbnail_src ? v.thumbnail_src : v.thumbnail })` }">
             <!-- <span>{{ v.name }}</span> -->
-            <input type="text" v-model="v.name"/>
+            <input type="text" v-model="v.name" :disabled="!!v.thumbnail_src"/>
             <div class="course-form__form__videos__item__remove">
               <font-awesome-icon icon="times-circle" @click.prevent="course.videos.splice(index, 1)"/>
             </div>
@@ -83,7 +83,7 @@ export default {
   computed: {
     ...mapGetters({
       isToUpdate: 'course/isToUpdate',
-      toUpdate: 'course/getCourse'
+      toUpdate: 'course/getToUpdate'
     })
   },
   methods: {
@@ -111,16 +111,20 @@ export default {
       if (course.videos.length > 0) {
         let failed = false
         try {
-          let payload = cloneDeep(course)
-          await this.$store.dispatch('course/save', payload)
-        } catch (e) {
-          failed = true
-        } finally {
-          if (failed) {
-            console.log('Failed!')
-          } else {
-            console.log('Success!');
-          }
+          await this.$store.dispatch('course/save', cloneDeep(course))
+        } catch (error) {
+          console.log('Failed to save video :(')
+        }
+      } else {
+        alert('Videos must be uploaded!')
+      }
+    },
+    async update (course) {
+      if (course.videos.length > 0) {
+        try {
+          await this.$store.dispatch('course/update', cloneDeep(course))
+        } catch (error) {
+          console.log('Failed to edit video :(')
         }
       } else {
         alert('Videos must be uploaded!')
@@ -141,10 +145,14 @@ export default {
         name: '',
         videos: []
       }
+      if (this.isToUpdate) {
+        this.$store.commit('course/setToUpdate', null)
+      }
       this.$router.go(-1)
     }
   },
-  mounted () {
+  async mounted () {
+    // Getting thumbnail from video
     const video = this.$refs['video']
     const canvas = this.$refs['canvas']
     video.addEventListener('loadedmetadata', () => {
@@ -158,6 +166,24 @@ export default {
         this.video.thumbnail = canvas.toDataURL()
       }, 50)
     })
+    // End thumbnail
+
+    // Verify if is to update
+    if (this.isToUpdate) {
+      const temp = cloneDeep(this.toUpdate)
+      await Promise.all(temp.videos.map(async v => {
+        const thumbnail = await this.$store.dispatch('file/getThumbnail', {
+          course: temp.name,
+          thumbnail: v.thumbnail
+        })
+        this.$set(v, 'thumbnail_src', thumbnail)
+      }))
+      this.$delete(temp, 'key')
+      this.course = temp
+      console.log(this.course)
+      console.log(this.toUpdate)
+    }
+    // End to update
   }
 }
 </script>

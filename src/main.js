@@ -15,11 +15,25 @@ import '@/assets/scss/main.scss'
 
 // FontAwesome
 // Start
+import {
+  faArrowCircleLeft,
+  faEdit,
+  faPlusCircle,
+  faSignOutAlt,
+  faTimes,
+  faTimesCircle
+} from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSignOutAlt, faPlusCircle, faTimesCircle, faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSignOutAlt, faPlusCircle, faTimesCircle, faArrowCircleLeft)
+library.add(
+  faArrowCircleLeft,
+  faEdit,
+  faPlusCircle,
+  faSignOutAlt,
+  faTimes,
+  faTimesCircle
+)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 // End

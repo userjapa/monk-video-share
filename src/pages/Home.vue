@@ -7,7 +7,14 @@
 
 <script>
 export default {
-  name: 'home'
+  name: 'home',
+  async beforeCreate () {
+    await this.$store.dispatch('course/reset')
+    this.$store.commit('course/addListener')
+  },
+  beforeDestroy () {
+    this.$store.commit('course/removeListener')
+  }
 }
 </script>
 
