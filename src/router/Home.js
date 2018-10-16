@@ -1,3 +1,4 @@
+import Course from './Course'
 import Courses from './Courses'
 import CourseForm from './CourseForm'
 
@@ -7,6 +8,7 @@ export default {
   path: '/',
   component: Home,
   children: [
+    Course,
     Courses,
     CourseForm
   ],

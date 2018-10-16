@@ -17,6 +17,7 @@
                  type="text"
                  v-model="course.name"
                  :class="{ active: !!course.name }"
+                 :disabled="isToUpdate"
                  required>
         </div>
         <div class="course-form__form__video">
@@ -41,8 +42,8 @@
           <div class="course-form__form__videos__item"
                v-for="(v, index) in course.videos"
                :key="`video-${index}`"
-               :style="{ backgroundImage: `url(${v.thumbnail_src ? v.thumbnail_src : v.thumbnail })` }">
-            <!-- <span>{{ v.name }}</span> -->
+               :data-src="v.thumbnail_src ? v.thumbnail_src : v.thumbnail">
+               <!-- :style="{ backgroundImage: `url(${v.thumbnail_src ? v.thumbnail_src : v.thumbnail })` }"> -->
             <input type="text" v-model="v.name" :disabled="!!v.thumbnail_src"/>
             <div class="course-form__form__videos__item__remove">
               <font-awesome-icon icon="times-circle" @click.prevent="course.videos.splice(index, 1)"/>
@@ -91,7 +92,6 @@ export default {
       if (file.name.match(/.avi|.flv|.wmv|.mov|.mp4/g)) {
         this.video.name = file.name.split('.')[0]
         this.video.file = file
-        this.isValid = true
         let reader = new FileReader
         reader.onload = () => {
           this.$refs['video'].src = reader.result
@@ -109,9 +109,9 @@ export default {
     },
     async save (course) {
       if (course.videos.length > 0) {
-        let failed = false
         try {
           await this.$store.dispatch('course/save', cloneDeep(course))
+          this.$router.replace({ name: 'Courses' })
         } catch (error) {
           console.log('Failed to save video :(')
         }
@@ -123,6 +123,7 @@ export default {
       if (course.videos.length > 0) {
         try {
           await this.$store.dispatch('course/update', cloneDeep(course))
+          this.$router.replace({ name: 'Courses' })
         } catch (error) {
           console.log('Failed to edit video :(')
         }
@@ -151,6 +152,25 @@ export default {
       this.$router.go(-1)
     }
   },
+  watch: {
+    'course.videos': function () {
+      // Start lazy load for images after render elements on v-for
+      this.$nextTick(async () => {
+        const videos = Array.from(document.querySelectorAll('.course-form__form__videos__item'))
+        await Promise.all(videos.map(v => {
+          if (v.hasAttribute('data-src')) {
+            let image = new Image()
+            image.onload = () => {
+              v.style['background-image'] = `url(${v.getAttribute('data-src')})`
+              v.removeAttribute('data-src')
+            }
+            image.src = v.getAttribute('data-src')
+          }
+        }))
+      })
+      // End lazy load
+    }
+  },
   async mounted () {
     // Getting thumbnail from video
     const video = this.$refs['video']
@@ -161,10 +181,12 @@ export default {
       canvas.width = vWidth
       canvas.height = vHeight
       const canvas_ctx = canvas.getContext('2d')
+      video.currentTime = 1
       setTimeout(() => {
         canvas_ctx.drawImage(video, 0, 0, vWidth, vHeight)
         this.video.thumbnail = canvas.toDataURL()
-      }, 50)
+        this.isValid = true
+      }, 100)
     })
     // End thumbnail
 
@@ -180,8 +202,6 @@ export default {
       }))
       this.$delete(temp, 'key')
       this.course = temp
-      console.log(this.course)
-      console.log(this.toUpdate)
     }
     // End to update
   }

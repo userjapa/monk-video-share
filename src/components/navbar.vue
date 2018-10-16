@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="nav">
-    <h1 class="nav__heading">{{ $router.currentRoute.name }}</h1>
+    <h1 class="nav__heading">{{ route }}</h1>
     <div class="nav__logout" @click="$store.dispatch('auth/logout')">
       <p><span class="nav__logout__text">logout</span> <font-awesome-icon icon="sign-out-alt" /></p>
     </div>
@@ -8,8 +8,26 @@
 </template>
 
 <script>
+import bus from './../globalBus'
+
 export default {
-  name: 'navbar'
+  name: 'navbar',
+  data () {
+    return {
+      route: ''
+    }
+  },
+  methods: {
+    routeChanged (routeName) {
+      this.route = routeName
+    }
+  },
+  mounted () {
+    bus.$on('route_changed', this.routeChanged)
+  },
+  beforeDestroy () {
+    bus.$off('route_changed', this.routeChanged)
+  }
 }
 </script>
 

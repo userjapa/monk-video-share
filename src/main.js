@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+import bus from './globalBus'
+
 // Router
 import router from './router'
 
@@ -40,9 +42,16 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 const doc = !!document ? document : window.document
 
+// Start SetTitle event
+bus.$on('set_title', title => {
+  doc.title = title
+})
+// End SetTitle
+
 router.beforeEach((to, from, next) => {
   if (!!to.meta.title) doc.title = to.meta.title
   if (!!to.meta.requiresAuth) {
+    bus.$emit('route_changed', to.name)
     if (store.getters['auth/hasUser']) next()
     else next('login')
   } else {

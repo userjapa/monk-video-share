@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { databaseRef } from './../firebase'
+import { cloneDeep } from 'lodash'
 
 const coursesRef = databaseRef.child('courses')
 
@@ -12,13 +13,13 @@ export default {
   },
   getters: {
     getCourse ({ course }) {
-      return course
+      return !!course ? cloneDeep(course) : { name: 'Not Found', videos: [] }
     },
     getCourses ({ courses }) {
       return courses
     },
     getToUpdate ({ toUpdate }) {
-      return toUpdate
+      return !!toUpdate ? toUpdate : { name: 'Not Found', videos: [] }
     },
     isToUpdate ({ toUpdate }) {
       return !!toUpdate
@@ -72,7 +73,7 @@ export default {
             return v
           }))
           await coursesRef.push(course)
-          this.$router.go(-1)
+          resolve()
         } catch (error) {
           commit('setError', error, { root: true })
           reject(error)
@@ -127,7 +128,7 @@ export default {
           }))
           course.videos.map(v => (Vue.delete(v, 'thumbnail_src')))
           await coursesRef.child(course_old.key).set(course)
-          console.log('Ended')
+          resolve()
         } catch (error) {
           commit('setError', error, { root: true })
           reject(error)

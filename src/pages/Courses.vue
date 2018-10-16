@@ -9,14 +9,20 @@
     </div>
     <div class="courses__list">
       <div class="courses__list__item"
-           v-for="(item, index) in courses"
-           :style="{ animationDelay: `${ .15 * index}s` }">
-        <div class="courses__list__item__title">
-          <h5>{{ item.name }}</h5>
-        </div>
-        <div class="courses__list__item__options" v-if="editing">
-          <font-awesome-icon icon="edit" @click="edit(item)"/>
-          <font-awesome-icon icon="times" @click="$store.dispatch('course/remove', item)"/>
+           v-for="(item, index) in courses">
+        <div class="courses__list__item__content"
+             :style="{
+               animationDelay: `${ .15 * index}s`,
+               cursor: editing ? 'default' : 'pointer'
+             }"
+             @click="viewCourse(item)">
+          <div class="courses__list__item__content__title">
+            <h5>{{ item.name }}</h5>
+          </div>
+          <div class="courses__list__item__content__options" :style="{ opacity: editing ? 1 : 0 }">
+            <font-awesome-icon icon="edit" @click="edit(item)"/>
+            <font-awesome-icon icon="times" @click="$store.dispatch('course/remove', item)"/>
+          </div>
         </div>
       </div>
     </div>
@@ -42,6 +48,12 @@ export default {
     edit (course) {
       this.$store.commit('course/setToUpdate', course)
       this.$router.push('form')
+    },
+    viewCourse (course) {
+      if (!this.editing) {
+        this.$store.commit('course/setCourse', course)
+        this.$router.push(`course/${course.name}`)
+      }
     }
   }
 }

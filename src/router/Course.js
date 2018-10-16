@@ -1,15 +1,14 @@
-const Courses = () => import(/* webpackChunkName: "CoursesPage" */ '@/pages/Courses')
+const Course = () => import(/* webpackChunkName: "CoursePage" */ '@/pages/Course')
 const navbar = () => import(/* webpackChunkName: "navbarComponent" */ '@/components/navbar')
 
 export default {
-  path: '/',
-  name: 'Courses',
+  path: '/course/:name',
+  name: 'Course',
   components: {
     header: navbar,
-    content: Courses
+    content: Course
   },
   meta: {
-    title: 'Monk Video Share',
     requiresAuth: true
   }
 }
