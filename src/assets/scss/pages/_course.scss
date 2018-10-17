@@ -1,62 +1,110 @@
 .course {
-  border: 2px solid green;
-  display: flex;
+  // border: 2px solid green;
+  display: inline-flex;
+  flex-direction: column;
   height: 100%;
-  &__videos {
-    border: 2px solid blue;
-    width: 100%;
-    transition: width .2s;
-    &.playing {
-      width: 20%;
-    }
-    &__list {
-      display: flex;
-      justify-content: flex-start;
+  &__nav {
+    display: flex;
+    padding: 5px 450px;
+    color: #515151;
+    font-size: 4.5rem;
+    height: 45px;
+    span {
+      margin-left: 15px;
       align-self: center;
-      flex-wrap: wrap;
-      padding: 5px;
-      &__item {
-        cursor: pointer;
-        display: flex;
-        position: relative;
-        width: 130px;
-        height: 130px;
-        margin: 5px;
-        background-size: cover;
-        opacity: 1;
-        transition: opacity 0.4s;
-        &[data-src] {
-          opacity: 0;
-        }
+      font-size: 2rem;
+    }
+    svg {
+      cursor: pointer;
+      transition: .2s;
+      &:hover {
+        color: #a1a1a1;
       }
     }
   }
-  &__player {
-    position: relative;
-    width: 0px;
-    transition: width .4s;
-    overflow: hidden;
-    height:100%;
-    video {
+  &__content {
+    display: flex;
+    width: 100%;
+    &__videos {
+      // border: 2px solid blue;
       width: 100%;
-      height: auto;
-      max-height: 100%;
-      min-width: 100%;
-      min-height: 100%;
+      max-height: calc(100% - #{40px});
+      padding: 15px 30px;
+      transition: width .2s;
+      &.playing {
+        width: 275px;
+        padding: 15px 0px 15px 30px;
+        .course__content__videos__name {
+          // text-align: center;
+          margin-bottom: 10px;
+          margin-left: 65px;
+        }
+      }
+      &__name {
+        margin-left: 15px;
+        margin-bottom: 5px;
+        transition: margin-left .4s;
+      }
+      &__list {
+        display: flex;
+        justify-content: flex-start;
+        align-self: center;
+        flex-wrap: wrap;
+        padding: 5px;
+        max-height: calc(100% - 10px);
+        overflow-y: scroll;
+        &__item {
+          cursor: pointer;
+          text-align: center;
+          width: 200px;
+          height: 200px;
+          margin: 5px;
+          box-shadow: 0px 2px 10px 0px black;
+          background-size: cover;
+          opacity: 1;
+          transition: opacity .4s, box-shadow .2s, transform .2s;
+          &:hover {
+            box-shadow: 0px 5px 10px 0px black;
+            transform: translateY(-5px);
+          }
+          &[data-src] {
+            opacity: 0;
+          }
+          &.selected {
+            box-shadow: 0px 2px 10px 0px red;
+            &:hover {
+              box-shadow: 0px 5px 10px 0px red;
+            }
+          }
+        }
+      }
     }
-    &__close {
-      cursor: pointer;
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: none;
-      margin: 15px;
-      font-size: 30px;
-    }
-    &.playing {
-      width: 80%;
-      .course__player__close {
-        display: block;
+    &__player {
+      position: relative;
+      width: 0px;
+      transition: width .4s ease;
+      overflow: hidden;
+      video {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        min-width: 100%;
+        min-height: 100%;
+      }
+      &__close {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: none;
+        margin: 15px;
+        font-size: 30px;
+      }
+      &.playing {
+        width: calc(100% - #{275px});
+        .course__content__player__close {
+          display: block;
+        }
       }
     }
   }

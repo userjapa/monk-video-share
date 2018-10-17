@@ -9,7 +9,8 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     Home,
-    Login
+    Login,
+    { path: '*', redirect: '/' }
   ],
   mode: 'history'
 })

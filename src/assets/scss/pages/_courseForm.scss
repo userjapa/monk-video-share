@@ -9,7 +9,7 @@
   &__nav {
     // border: 2px solid black;
     display: flex;
-    padding: 5px 40px;
+    padding: 5px calc(455px - 10%);
     color: #515151;
     font-size: 4.5rem;
     height: 45px;
@@ -124,8 +124,11 @@
   .course-form {
     padding: 0;
     height: 100%;
+    &__nav {
+      padding: 5px 40px;
+    }
     &__form {
-      padding: 0 30px;
+      padding: 5px 40px;
       &__input {
         width: 350px;
       }
