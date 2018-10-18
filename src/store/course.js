@@ -39,6 +39,10 @@ export default {
       console.log('Add Course: ', course)
       let value = course.val()
       value.videos = Object.values(value.videos)
+      value.videos.map(v => {
+        if (!!v.links) Vue.set(v, 'links', Object.values(v.links))
+      })
+      console.log(value)
       state.courses.push({ ...value, key: course.key })
     },
     edit (state, course) {

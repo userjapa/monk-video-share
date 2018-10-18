@@ -43,10 +43,10 @@
                v-for="(v, index) in course.videos"
                :key="`video-${index}`"
                :data-src="v.thumbnail_src ? v.thumbnail_src : v.thumbnail">
-               <!-- :style="{ backgroundImage: `url(${v.thumbnail_src ? v.thumbnail_src : v.thumbnail })` }"> -->
             <input type="text" v-model="v.name" :disabled="!!v.thumbnail_src"/>
-            <div class="course-form__form__videos__item__remove">
-              <font-awesome-icon icon="times-circle" @click.prevent="course.videos.splice(index, 1)"/>
+            <div class="course-form__form__videos__item__options">
+              <font-awesome-icon icon="info-circle" class="info" @click.prevent="showModalInfo(v)"/>
+              <font-awesome-icon icon="times-circle" class="close" @click.prevent="course.videos.splice(index, 1)"/>
             </div>
           </div>
         </div>
@@ -58,12 +58,44 @@
     </div>
     <video id="video" ref="video" muted></video>
     <canvas id="canvas" ref="canvas"></canvas>
+    <modal :show="showModal">
+      <div class="modal-info">
+        <div class="modal-info__name">
+          <span>{{ video_temp ? video_temp.name.split('.')[0] : '' }}</span>
+        </div>
+        <!-- <div class="modal-info__link">
+          <form class="modal-info__link__form" @submit.prevent="addLink(link)">
+            <label for="link">Link</label>
+            <input id="link" class="input" type="text" name="link" v-model="link">
+          </form>
+          <div class="modal-info__link__list">
+            <div class="modal-info__link__list__item"
+                 v-for="(item, index) in videoLinks"
+                 :key="`link-${index}`">
+                 {{ item }}
+            </div>
+          </div>
+        </div> -->
+        <div id="text"
+             class="modal-info__description"
+             contenteditable="true"
+             @keyup.enter="addParagraph($event.target)">
+        </div>
+        <div class="modal-info__options">
+
+        </div>
+        <div class="modal-info__close">
+          <font-awesome-icon icon="times-circle" @click.prevent="closeModalInfo()"/>
+        </div>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
 import { cloneDeep } from 'lodash'
 import { mapGetters } from 'vuex'
+import modal from '@/components/modal'
 
 export default {
   name: 'CourseForm',
@@ -78,14 +110,20 @@ export default {
         file: null,
         thumbnail: null
       },
-      isValid: false
+      isValid: false,
+      showModal: false,
+      link: '',
+      video_temp: null
     }
   },
   computed: {
     ...mapGetters({
       isToUpdate: 'course/isToUpdate',
       toUpdate: 'course/getToUpdate'
-    })
+    }),
+    videoLinks () {
+      return (!this.video_temp || !this.video_temp.links) ? [] : this.video_temp.links
+    }
   },
   methods: {
     fileChanged (file) {
@@ -106,6 +144,23 @@ export default {
       this.course.videos.push(video)
       this.isValid = false
       this.resetVideo()
+    },
+    showModalInfo (video) {
+      this.showModal = true
+      this.video_temp = video
+    },
+    closeModalInfo () {
+      this.showModal = false
+      this.link = ''
+      this.video_temp = null
+    },
+    addParagraph (el) {
+      console.log(el);
+      let fullText = el.innerHTML
+      console.log(fullText.split('<div><br></div>'))
+      fullText = fullText.split('<div><br></div>').join('')
+      fullText.replace(new RegExp('<div>'), '<p>')
+      console.log(fullText)
     },
     async save (course) {
       if (course.videos.length > 0) {
@@ -151,6 +206,9 @@ export default {
       }
       this.$router.go(-1)
     }
+  },
+  components: {
+    modal
   },
   watch: {
     'course.videos': function () {

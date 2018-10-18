@@ -20,6 +20,7 @@ import '@/assets/scss/main.scss'
 import {
   faArrowCircleLeft,
   faEdit,
+  faInfoCircle,
   faPlusCircle,
   faSignOutAlt,
   faTimes,
@@ -31,6 +32,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(
   faArrowCircleLeft,
   faEdit,
+  faInfoCircle,
   faPlusCircle,
   faSignOutAlt,
   faTimes,

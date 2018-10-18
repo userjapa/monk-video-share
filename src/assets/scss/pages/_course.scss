@@ -1,11 +1,10 @@
 .course {
-  // border: 2px solid green;
   display: inline-flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 100px);
   &__nav {
     display: flex;
-    padding: 5px 450px;
+    padding: 5px 490px;
     color: #515151;
     font-size: 4.5rem;
     height: 45px;
@@ -84,6 +83,7 @@
       width: 0px;
       transition: width .4s ease;
       overflow: hidden;
+      padding-top: 15px;
       video {
         width: 100%;
         height: auto;
