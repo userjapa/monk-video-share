@@ -76,13 +76,41 @@
             </div>
           </div>
         </div> -->
+        <div class="modal-info__menu">
+          <div class="modal-info__menu__item">
+            <label for="menu_fontsize">Font Size</label>
+            <input id="menu_fontsize" class="input" type="number" v-model="menu.fontSize" min="12" max="64" step="2"/>
+          </div>
+          <div class="modal-info__menu__item">
+            <button class="btn --small" @click="showDropDown ? closeDropDown($refs['dropdown']) : openDropDown($refs['dropdown'])">Add Link</button>
+            <div ref="dropdown" class="modal-info__menu__item__dropdown" v-show="showDropDown">
+              <div class="modal-info__menu__item__dropdown__field">
+                <label for="link_text">Text</label>
+                <input id="link_text" class="input" type="text" v-model="link.text">
+              </div>
+              <div class="modal-info__menu__item__dropdown__field">
+                <label for="link_URL">URL</label>
+                <input id="link_word" class="input" type="text" v-model="link.url">
+              </div>
+              <div class="modal-info__menu__item__dropdown__options">
+                <button @click="addLink({ el: $refs['text'], link})">Add</button>
+                <button @click="closeDropDown($refs['dropdown'])">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div id="text"
              class="modal-info__description"
-             contenteditable="true"
-             @keyup.enter="addParagraph($event.target)">
+             ref="text"
+             :contenteditable="!preview"
+             :class="{ editing: !preview }"
+             :style="{
+               fontSize: `${menu.fontSize}px`
+             }">
         </div>
         <div class="modal-info__options">
-
+          <button @click="preview = !preview">{{ preview ? 'Edit' : 'Preview' }}</button>
+          <button @click="addDescription({ el: $refs['text'], video: video_temp })">Save</button>
         </div>
         <div class="modal-info__close">
           <font-awesome-icon icon="times-circle" @click.prevent="closeModalInfo()"/>
@@ -110,10 +138,18 @@ export default {
         file: null,
         thumbnail: null
       },
+      menu: {
+        fontSize: 14
+      },
+      link: {
+        text: '',
+        url: ''
+      },
       isValid: false,
       showModal: false,
-      link: '',
-      video_temp: null
+      showDropDown: false,
+      video_temp: null,
+      preview: false
     }
   },
   computed: {
@@ -148,19 +184,55 @@ export default {
     showModalInfo (video) {
       this.showModal = true
       this.video_temp = video
+      if (!!video.description) {
+        this.$refs['text'].innerHTML = video.description.text
+        this.menu.fontSize = video.description.fontSize
+      }
     },
     closeModalInfo () {
-      this.showModal = false
       this.link = ''
+      this.menu = {
+        fontSize: 12
+      }
+      this.$refs['text'].innerHTML = ''
+      this.showModal = false
       this.video_temp = null
     },
-    addParagraph (el) {
-      console.log(el);
-      let fullText = el.innerHTML
-      console.log(fullText.split('<div><br></div>'))
-      fullText = fullText.split('<div><br></div>').join('')
-      fullText.replace(new RegExp('<div>'), '<p>')
-      console.log(fullText)
+    addLink ({ el, link }) {
+      if (link.url.match(/\b(?:www|http|https)\b/gi)) {
+        if (!!link.text) {
+          const content = el.innerHTML
+          el.innerHTML = `${content}<a target="_blank" href="${link.url}">${link.text}</a>`
+        } else {
+          alert('Text must be informed!')
+        }
+      } else {
+        alert('Invalid URL!')
+      }
+      this.closeDropDown(this.$refs['dropdown'])
+    },
+    openDropDown (el) {
+      el.classList.remove('down')
+      el.classList.add('up')
+      this.showDropDown = true
+    },
+    closeDropDown (el) {
+      this.link = {
+        text: '',
+        url: ''
+      }
+      el.classList.remove('up')
+      el.classList.add('down')
+      setTimeout(() => {
+        this.showDropDown = false
+        this.preview = false
+      }, 200)
+    },
+    addDescription ({ el, video }) {
+      if (!video.description) this.$set(video, 'description', {})
+      this.$set(video.description, 'text', el.innerHTML)
+      this.$set(video, 'description', { ...video.description, ...this.menu })
+      this.closeModalInfo()
     },
     async save (course) {
       if (course.videos.length > 0) {

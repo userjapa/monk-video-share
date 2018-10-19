@@ -10,3 +10,29 @@
     opacity: 1
   }
 }
+
+@keyframes stretchOutH {
+  from {
+    height: 0px;
+    opacity: 0;
+    text-indent: -999999px;
+  }
+  to {
+    height: 160px;
+    opacity: 1;
+    text-indent: 0px;
+  }
+}
+
+@keyframes stretchInH {
+  from {
+    height: 160px;
+    opacity: 1;
+    text-indent: 0px;
+  }
+  to {
+    height: 0px;
+    opacity: 0;
+    text-indent: -999999px;
+  }
+}

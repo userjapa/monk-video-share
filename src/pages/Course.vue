@@ -30,6 +30,16 @@
         <div class="course__content__player__close">
           <font-awesome-icon icon="times-circle" @click="close()"/>
         </div>
+        <div class="course__content__player__description" v-show="(!!video && !!video.description) && showDescription">
+          <div class="course__content__player__description__text">
+            <div class="course__content__player__description__box" ref="description">
+
+            </div>
+            <div class="course__content__player__description__close">
+              <font-awesome-icon icon="times-circle" @click="showDescription = false"/>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -44,7 +54,8 @@ export default {
   data () {
     return {
       video: null,
-      position: null
+      position: null,
+      showDescription: true
     }
   },
   computed: {
@@ -63,6 +74,7 @@ export default {
     setVideo ({ video, position }) {
       this.video = video
       this.position = position
+      this.showDescription = true
     },
     endedVideo (player) {
       if ((this.position + 1) <= this.course.videos.length) {
@@ -77,6 +89,11 @@ export default {
   watch: {
     async video (video) {
       if (!!video) {
+        if (video.description) {
+          console.log(this.$refs['description'])
+          this.$refs['description'].innerHTML = video.description.text
+          this.$refs['description'].style['font-size'] = `${video.description.fontSize}px`
+        }
         let url = video.name_src ? video.name_src : ''
         if (!url) {
           console.log('Getting video');
