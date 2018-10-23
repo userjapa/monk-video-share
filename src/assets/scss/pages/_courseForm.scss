@@ -7,7 +7,6 @@
   overflow-y: hidden;
   height: calc(100% - 100px);
   &__nav {
-    // border: 2px solid black;
     display: flex;
     padding: 5px calc(455px - 10%);
     color: #515151;
@@ -55,6 +54,10 @@
         font-size: 1.4rem;
       }
     }
+    &__submit {
+      // border: 2px solid brown;
+      align-self: center;
+    }
     &__video {
       align-self: center;
       width: 100%;
@@ -63,12 +66,17 @@
       margin-top: 10px;
     }
     &__videos {
-      // border: 2px solid black;
+      margin-top: 5px;
       display: flex;
-      justify-content: flex-start;
+      position: relative;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-end;
+      overflow-y: scroll;
       align-self: center;
-      width: 60%;
-      padding: 5px;
+      max-height: calc(100vh - 350px);
+      overflow-y: scroll;
+      overflow-x: hidden;
       &__item {
         // border: 2px solid black;
         display: flex;
@@ -106,18 +114,14 @@
               transform: scale(1.5);
             }
             &.close {
-              color: red;
+              color: #b53333;
             }
             &.info {
-              color: blue;
+              color: #4949c7;
             }
           }
         }
       }
-    }
-    &__submit {
-      // border: 2px solid brown;
-      align-self: center;
     }
   }
 }
@@ -214,7 +218,7 @@
   }
 }
 
-@media (max-width: 660px) {
+@media only screen and (max-width: 600px) {
   .course-form {
     padding: 0;
     height: 100%;
@@ -225,6 +229,9 @@
       padding: 5px 40px;
       &__input {
         width: 350px;
+        input {
+          max-width: 200px;
+        }
       }
     }
   }

@@ -13,13 +13,11 @@ export default store => {
         coursesRef.on('child_added', addCourse)
         coursesRef.on('child_changed', editCourse)
         coursesRef.on('child_removed', removeCourse)
-        console.log('Added Listeners')
         break
       case 'course/removeListener':
         coursesRef.off('child_added', addCourse)
         coursesRef.off('child_changed', editCourse)
         coursesRef.off('child_removed', removeCourse)
-        console.log('Removed Listeners')
         break
     }
   })

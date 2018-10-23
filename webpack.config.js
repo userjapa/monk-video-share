@@ -49,7 +49,13 @@ module.exports = {
             'sass': [
               'vue-style-loader',
               'css-loader',
-              'sass-loader?indentedSyntax'
+              'sass-loader?indentedSyntax',
+              {
+                loader: 'sass-resources-loader',
+                options: {
+                  resources: [path.join(__dirname, 'src/assets/scss/abstracts/_variables.scss')]
+                }
+              }
             ]
           }
           // other vue-loader options go here

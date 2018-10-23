@@ -36,17 +36,14 @@ export default {
       Vue.set(state, 'toUpdate', course)
     },
     add (state, course) {
-      console.log('Add Course: ', course)
       let value = course.val()
       value.videos = Object.values(value.videos)
       value.videos.map(v => {
         if (!!v.links) Vue.set(v, 'links', Object.values(v.links))
       })
-      console.log(value)
       state.courses.push({ ...value, key: course.key })
     },
     edit (state, course) {
-      console.log('Edit Course: ', course)
       const key = course.key
       const index = state.courses.findIndex(c => c.key === key)
       let value = course.val()
@@ -54,7 +51,6 @@ export default {
       Vue.set(state.courses, index, { ...value, key: key })
     },
     remove (state, course) {
-      console.log('Removed Course: ', course)
       const index = state.courses.findIndex(c => c.key === course.key)
       Vue.delete(state.courses, index)
     },

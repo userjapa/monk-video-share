@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="home">
-    <router-view name="header"/>
-    <router-view name="content"/>
+    <router-view name="header" class="home__header"/>
+    <router-view name="content" class="home__content"/>
   </div>
 </template>
 

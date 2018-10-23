@@ -13,7 +13,6 @@ import store from './store'
 import { auth } from '@/firebase'
 
 // SCSS
-import '@/assets/scss/main.scss'
 
 // FontAwesome
 // Start

@@ -90,13 +90,11 @@ export default {
     async video (video) {
       if (!!video) {
         if (video.description) {
-          console.log(this.$refs['description'])
           this.$refs['description'].innerHTML = video.description.text
           this.$refs['description'].style['font-size'] = `${video.description.fontSize}px`
         }
         let url = video.name_src ? video.name_src : ''
         if (!url) {
-          console.log('Getting video');
           url = await this.$store.dispatch('file/getVideo', {
             course: this.course.name,
             video: video.name

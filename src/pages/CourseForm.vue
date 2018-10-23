@@ -38,6 +38,10 @@
                  @change="fileChanged($event.target.files[0])">
                  <!-- style="display: none;" -->
         </div>
+        <div class="course-form__form__submit">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button class="btn btn-danger" @click.prevent="cancel()">Cancel</button>
+        </div>
         <div class="course-form__form__videos">
           <div class="course-form__form__videos__item"
                v-for="(v, index) in course.videos"
@@ -49,10 +53,6 @@
               <font-awesome-icon icon="times-circle" class="close" @click.prevent="course.videos.splice(index, 1)"/>
             </div>
           </div>
-        </div>
-        <div class="course-form__form__submit">
-          <button type="submit" class="btn btn-success">Save</button>
-          <button class="btn btn-danger" @click.prevent="cancel()">Cancel</button>
         </div>
       </form>
     </div>

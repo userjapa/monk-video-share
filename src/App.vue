@@ -11,6 +11,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "assets/scss/main";
 .app {
   height: 100vh;
   width: 100vw;
