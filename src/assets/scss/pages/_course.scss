@@ -33,8 +33,7 @@
       display: flex;
       flex-wrap: wrap;
       width: 100%;
-      max-height: calc(100% - #{40px});
-      padding: 15px 30px;
+      height: auto;
       transition: width .2s;
       &.playing {
         width: 230px;
@@ -58,11 +57,12 @@
         flex-direction: row;
         align-self: center;
         flex-wrap: wrap;
-        padding: 5px;
         width: 100%;
         height: 100%;
-        max-height: calc(100% - 100px);
+        max-height: calc(100% - #{150px});
+        overflow-x: hidden;
         overflow-y: scroll;
+        // padding: 15px 30px;
         &__item {
           cursor: pointer;
           text-align: center;
@@ -102,6 +102,7 @@
         max-height: 100%;
         min-width: 100%;
         min-height: 100%;
+        background-color: #000;
       }
       &__close {
         cursor: pointer;
@@ -112,6 +113,7 @@
         margin: 15px;
         font-size: 3rem;
         svg {
+          color: #fff;
           transition: transform .3s;
           &:hover {
             transform: scale(1.5) rotate(90deg);
@@ -122,10 +124,9 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: calc(100% - #{50px});
-        height: calc(100% - #{50px});
-        margin-top: 15px;
-        padding: 25px;
+        width: calc(100% - #{30px});
+        height: calc(100% - #{30px});
+        padding: 15px;
         background-color: #fff;
         &__text {
           position: relative;
@@ -164,6 +165,7 @@
     height: 100%;
     &__nav {
       padding: 5px 40px;
+      height: 50px;
     }
     &__content {
       &__videos {
@@ -172,6 +174,7 @@
         top: 0;
         left: 0;
         &__name {
+          margin-top: 25px;
           margin-left: 5px;
           font-size: 2rem
         }
@@ -180,6 +183,8 @@
         }
       }
       &__player {
+        padding-top: 0;
+        padding-left: 0;
         &.playing {
           width: 100%;
           padding: 0;
