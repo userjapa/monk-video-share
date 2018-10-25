@@ -62,12 +62,14 @@ router.beforeEach((to, from, next) => {
 
 auth.onAuthStateChanged(user => {
   store.commit('auth/setUser', user)
+  store.commit('setLoaded', false)
   if (!store.getters['auth/hasUser']) {
     router.replace({ name: 'Login' })
   } else {
     if (router.currentRoute.name === 'Login')
       router.replace({ name: 'Courses' })
   }
+  store.commit('setLoaded', true)
 })
 
 new Vue({

@@ -14,7 +14,7 @@ export default {
   name: 'navbar',
   data () {
     return {
-      route: ''
+      route: this.$router.currentRoute.name
     }
   },
   methods: {
@@ -35,12 +35,14 @@ export default {
 .nav {
   display: flex;
   background-color: #dfdfdf;
-  height: 100px;
   width: 100%;
+  height: 100px;
+  min-height: 87px;
   justify-content: center;
   align-items: center;
   position: relative;
   color: #515151;
+  z-index: 999;
   cursor: pointer;
   &__logout {
     position: absolute;

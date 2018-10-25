@@ -9,10 +9,13 @@
   justify-content: flex-start;
   align-content: stretch;
   align-items: stretch;
-  &__header {
-
-  }
-  &__content {
-
+  .home-transition {
+    &-enter-active {
+      animation: showRight 1s ease backwards;
+      animation-delay: 1s;
+    }
+    &-leave-active {
+      animation: hideRight 1s ease backwards;
+    }
   }
 }
